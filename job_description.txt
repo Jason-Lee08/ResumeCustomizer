@@ -1,0 +1,99 @@
+Data & Applied Scientist II
+Redmond, Washington, United States
+
+Save
+
+Share job
+
+Date posted
+Dec 17, 2024
+Job number
+1791010
+Work site
+Up to 50% work from home
+Travel
+0-25 %
+Role type
+Individual Contributor
+Profession
+Research, Applied, & Data Sciences
+Discipline
+Applied Sciences
+Employment type
+Full-Time
+Overview
+The online advertising industry is experiencing rapid growth, delivering hundreds of millions of ad impressions daily and generating terabytes of user event data. This expansion presents incredible opportunities alongside complex technical challenges that require advanced computational intelligence. The Bing Ads Understanding team is at the forefront of this dynamic field, tackling these challenges through cutting-edge technologies, including data mining, statistical analysis, machine learning, deep learning, natural language processing, large language modeling, multi-lingual and multi-modality modeling. Our team is looking for a Data & Applied Scientist II to join us in our mission.  
+
+Our mission centers on solving the core problem of computational advertising: selecting an optimized slate of relevant ads that maximizes a comprehensive utility function encompassing expected revenue, user experience, and advertiser return on investment.
+
+As a world-class R&D team of passionate scientists and engineers, we are dedicated to addressing these challenges with innovative ideas and turning them into high-quality products and impactful solutions. We empower hundreds of millions of users to find what they need while enabling advertisers to reach their ideal audiences, creating a seamless marketplace experience that drives success across the board.
+
+ 
+
+Microsoft’s mission is to empower every person and every organization on the planet to achieve more. As employees we come together with a growth mindset, innovate to empower others, and collaborate to realize our shared goals. Each day we build on our values of respect, integrity, and accountability to create a culture of inclusion where everyone can thrive at work and beyond.
+
+Qualifications
+Required Qualifications:
+
+Doctorate in Data Science, Mathematics, Statistics, Econometrics, Economics, Operations Research, Computer Science, or related field
+
+o OR Master's Degree in Data Science, Mathematics, Statistics, Econometrics, Economics, Operations Research, Computer Science, or related field AND 1+ year(s) data-science experience (e.g., managing structured and unstructured data, applying statistical techniques and reporting results) or consulting experience
+
+OR Bachelor's Degree in Data Science, Mathematics, Statistics, Econometrics, Economics, Operations Research, Computer Science, or related field AND 2+ years data-science experience (e.g., managing structured and unstructured data, applying statistical techniques and reporting results)
+
+o OR equivalent experience.
+
+ 
+
+ 
+
+Preferred Qualifications:
+
+Experience with Large Language Models: Demonstrated experience working with LLMs, such as GPT, BERT, or similar models, including knowledge of their strengths, limitations, and capabilities.
+Understanding of NLP: In-depth knowledge of natural language processing (NLP) techniques and concepts, including tokenization, embeddings, semantic analysis, and their integration into machine learning pipelines.
+Understanding and Experience with Multi-Modal Modeling: Familiarity and hands-on experience with multi-modal models such as ViT (Vision Transformer), CLIP, and LLAVA. Ability to apply these models in scenarios involving the integration of text and visual data for tasks such as cross-modal understanding, retrieval, relevance and ranking.
+Proven ability to work independently in a team to deliver innovative solutions solving challenging business/technical problems from high level vision and architecture, down to quality design and implementation. Self-motivated and self-directed and be able to work constructively with a wide variety of people, team and changing business priorities
+Understanding of state-of-the-art machine learning and deep learning technologies. In particular, hands-on experiences with deep learning models (DNN, CNN, RNN, Attention, Transformer) and frameworks (TensorFlow, PyTorch, Keras, etc.)
+ 
+
+ 
+
+Applied Sciences IC3 - The typical base pay range for this role across the U.S. is USD $98,300 - $193,200 per year. There is a different range applicable to specific work locations, within the San Francisco Bay area and New York City metropolitan area, and the base pay range for this role in those locations is USD $127,200 - $208,800 per year.
+
+Certain roles may be eligible for benefits and other compensation. Find additional benefits and pay information here: https://careers.microsoft.com/us/en/us-corporate-pay
+
+Microsoft will accept applications for the role until January 7, 2025
+
+
+ 
+
+
+ 
+
+Responsibilities
+Response and Resolution:
+
+Leverages understanding of data science and business to examine a project and consider factors that can influence final outcomes within a technical area. Evaluates project plan for resources, risks, contingencies, requirements, assumptions, and constraints. Documents key business objectives. Effectively communicates business goals in analytical and technical terms. Consistently shares insights with stakeholders.
+Build and maintain production-level machine learning models to assess and predict the relevance between ads and diverse user contexts, such as search queries or conversational interactions. Employ cutting-edge techniques, including large language models (LLMs) and state-of-the-art innovations from academia and industry, to enhance relevance modeling and drive impactful outcomes. Utilize Python, PyTorch and open-source libraries to train and fine-tune large language models. Apply advanced techniques like transfer learning, domain adaptation, and prompt engineering to tailor pre-trained LLMs to specific advertising scenarios. Build efficient training pipelines, inference pipelines for offline and online serving on production environments.
+ 
+
+Readiness:
+
+Understands where to acquire data necessary for successful completion of the project plan. Utilizes querying, visualization, and reporting techniques to describe acquired data, including format, quantity, identities, and other surface properties. Explores data for key attributes and contributes to the development of data quality report describing results of the task, initial findings, and impact on the project. Collaborates with others to perform data-science experiments using established methodologies, statistics, optimization, and probability theory for general purpose software and statistical packages. Assesses different tools and techniques and selects the appropriate one. Serves as an effective partner in data preparation efforts to Solution Architects, Consultants, and Data Engineers. Adheres to Microsoft's privacy policy related to collecting and preparing data. Identifies data integrity problems.
+Derive meaningful insights and generate hypotheses from massive datasets using a variety of advanced techniques such as machine learning, feature engineering, statistical modeling, and data mining. Leverage methods like regression, classification, natural language processing (NLP), optimization, and p-value analysis to solve complex problems effectively.
+ 
+
+Product/Process Improvement:
+
+Leverages knowledge of machine learning solutions (e.g., classification, regression, clustering, forecasting, natural language processing [NLP], image recognition) and individual algorithms (e.g., linear and logistic regression, k-means, gradient boosting, autoregressive integrated moving average [ARIMA], recurrent neutral networks [RNN], long short-term memory [LSTM] networks) to identify the best approach to complete objectives. Understands modeling techniques (e.g., dimensionality reduction, cross-validation, regularization, encoding, assembling, activation functions) and selects the correct approach to prepare data, train and optimize the model, and evaluate the output for statistical and business significance. Understands the risks of data leakage, the bias/variance tradeoff, methodological limitations, etc. Writes all necessary scripts in the appropriate language: T-SQL, U-SQL, KQL, Python, R, etc. Constructs hypotheses, designs controlled experiments, analyzes results using statistical tests, and communicates findings to business stakeholders. Effectively communicates with diverse audiences on data-quality issues and initiatives. Understands operational considerations of model deployment, such as performance, scalability, monitoring, maintenance, integration into engineering production system, stability. Develops operational models that run at scale through partnership with data engineering teams.
+ 
+
+ 
+
+Business Integration:
+
+Leverages understanding of data science and business to examine projects through a customer-oriented focus. Manages customer expectations regarding project/product progress and timeline. Takes responsibility to enhance customer excellence. Assists and learns from senior team members interpret results, develops insights, and communicates results to customers. Possesses basic understanding about model accuracy dependency on data quality and able to articulate it in customer discussions.
+Manage and manipulate petabyte-scale datasets using a combination of open-source and proprietary tools. Proficiency in programming languages like Python, R, C#, C++, Java, and SQL is highly valued to implement scalable data workflows and pipelines.
+ 
+
+Other · Embody our culture and values

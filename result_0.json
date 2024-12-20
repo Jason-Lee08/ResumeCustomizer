@@ -1,0 +1,89 @@
+{
+   "education": {
+        "universityname": "My University",
+        "start_date": "01/20",
+        "grad_date": "Expected 01/24",
+        "degree_type": "Bachelors of Science",
+        "GPA": "4.00",
+        "major": "Undecided",
+        "city": "San Jose",
+        "state_abbreviation": "CA",
+        "coursework": "Algorithms, Data Structures"
+    },
+    "experience": [
+        {
+            "company_name": "AI Ventures",
+            "start_date": "Jun 2020",
+            "end_date": "Apr 2021",
+            "role_title": "Machine Learning Intern",
+            "city": "Chicago",
+            "state": "IL",
+            "bullet_points": [
+                "Developed deep learning models for image classification using PyTorch and TensorFlow, enhancing model accuracy by 15% through transfer learning techniques.",
+                "Built and deployed REST APIs to serve machine learning predictions, ensuring robust end-user access.",
+                "Conducted hyperparameter tuning and performance optimization for models, improving inference speed for real-time applications.",
+                "Documented and presented results to stakeholders, translating complex technical findings into actionable insights."
+            ]
+        },
+        {
+            "company_name": "DataSys Solutions",
+            "start_date": "May 2021",
+            "end_date": "Dec 2022",
+            "role_title": "Data Engineer",
+            "city": "Boston",
+            "state": "MA",
+            "bullet_points": [
+                "Built ETL pipelines to process terabytes of data using Apache Airflow and Spark, improving data ingestion efficiency by 50%.",
+                "Designed data models for efficient storage and retrieval in a Snowflake data warehouse, optimizing query performance.",
+                "Integrated machine learning models into data pipelines, delivering predictive insights and enhancing business analytics capabilities.",
+                "Collaborated with data scientists and engineers to ensure seamless data integration and compliance with data quality standards."
+            ]
+        },
+        {
+            "company_name": "Tech Innovators Inc.",
+            "start_date": "Jan 2023",
+            "end_date": "Present",
+            "role_title": "Full Stack Developer",
+            "city": "San Jose",
+            "state": "CA",
+            "bullet_points": [
+                "Designed and deployed responsive web applications using React, Node.js, and PostgreSQL, enhancing user interaction through data-driven design.",
+                "Collaborated with cross-functional teams to implement GraphQL APIs, improving data-fetching efficiency and reducing overhead.",
+                "Mentored junior developers in best practices for coding and debugging, fostering a collaborative learning environment.",
+                "Participated in Agile development processes, ensuring timely delivery of project milestones."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "AI-Assisted Code Review Tool",
+            "skills": "Python, Flask, NLP, GitHub API, Docker",
+            "bullet_points": [
+                "Developed an AI-assisted code review tool leveraging natural language processing to analyze code and generate review suggestions.",
+                "Integrated with the GitHub API to automate comments on pull requests, significantly reducing code review time by 40%.",
+                "Used Flask for backend services, ensuring scalability through Docker deployment.",
+                "Collaborated with teams to continually refine NLP algorithms for improving code review accuracy."
+            ]
+        },
+        {
+            "project_name": "Smart Traffic Control System",
+            "skills": "Python, OpenCV, Raspberry Pi, MQTT, TensorFlow",
+            "bullet_points": [
+                "Designed an AI-powered traffic control system to analyze real-time video feeds, optimizing traffic flow using TensorFlow for vehicle classification.",
+                "Implemented MQTT for communication between edge devices and a centralized server, demonstrating real-time data processing capabilities.",
+                "The system's dynamic adjustments reduced simulated congestion by up to 25%, showcasing practical application of machine learning.",
+                "Collaborated with a multidisciplinary team to integrate hardware and software components seamlessly."
+            ]
+        },
+        {
+            "project_name": "Distributed Database Replication System",
+            "skills": "Java, Apache Kafka, MySQL, Docker, Kubernetes",
+            "bullet_points": [
+                "Engineered a distributed database replication system via Apache Kafka, ensuring high availability across data centers.",
+                "Utilized MySQL for data storage and managed container orchestration with Docker and Kubernetes, enhancing deployment efficiency.",
+                "Implemented monitoring tools and conflict resolution strategies, significantly reducing downtime by 70%.",
+                "Delivered a robust solution that successfully integrated with existing data workflows and infrastructure."
+            ]
+        }
+    ]
+}
