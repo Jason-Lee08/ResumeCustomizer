@@ -2,6 +2,8 @@ from jinja2 import Template, Environment, FileSystemLoader
 import json
 import os
 import shutil
+import subprocess
+from time import sleep
 
 env = Environment(
     loader=FileSystemLoader('.'),
@@ -10,6 +12,8 @@ env = Environment(
     variable_start_string='<<',
     variable_end_string='>>'
 )
+
+RESUME_BACKUP_FOLDER = "backups"
 
 def generate_experience(data):
     """
@@ -50,7 +54,7 @@ def generate_experience(data):
             "role_title": exp.get("role_title", "Role Title"),
             "city": exp.get("city", "City"),
             "state": exp.get("state", "State"),
-            "bullet_items": "".join(["        \\resumeItem{%s}\n" % bullet for bullet in exp.get("bullet_points", ["Bullet point 1", "Bullet point 2"])]),
+            "bullet_items": "".join(["        \\resumeItem{%s}\n" % add_escape_chars(bullet) for bullet in exp.get("bullet_points", ["Bullet point 1", "Bullet point 2"])]),
         }
 
         # Render the experience template with context
@@ -83,6 +87,11 @@ def duplicate_new_src_folder(source_folder="resume", subfolder="resume_folder"):
         i += 1
 
     return target_folder
+
+def add_escape_chars(json_string):
+    " Applied before serializing responses to json so that they can be loaded in by Python "
+    result = json_string.replace('%', '\\%')
+    return result
 
 def generate_projects(data):
     """
@@ -119,7 +128,7 @@ def generate_projects(data):
         context = {
             "project_name": exp.get("project_name", "Project"),
             "skills": exp.get("skills", ""),
-            "bullet_items": "".join(["        \\resumeItem{%s}\n" % bullet for bullet in exp.get("bullet_points", ["Bullet point 1", "Bullet point 2"])]),
+            "bullet_items": "".join(["\\resumeItem{%s}\n" % add_escape_chars(bullet) for bullet in exp.get("bullet_points", ["Bullet point 1", "Bullet point 2"])]),
         }
 
         # Render the experience template with context
@@ -131,7 +140,7 @@ def generate_projects(data):
 
     return final_output
 
-def duplicate_new_src_folder(source_folder="resume", subfolder="resume_folder"):
+def duplicate_new_src_folder(source_folder="resume", subfolder="./"):
     if not os.path.exists(source_folder):
         print(f"Source folder '{source_folder}' does not exist.")
         return
@@ -154,11 +163,12 @@ def duplicate_new_src_folder(source_folder="resume", subfolder="resume_folder"):
     return target_folder
 
 TEMP_DIR = duplicate_new_src_folder()
-JSON_FILE = "result_0.json"
+JSON_FILE = "final_result.json"
 
 with open(JSON_FILE, 'r') as file:
     data = json.load(file)
 print(f"New Dir: {TEMP_DIR}")
+
 resume_sections = ["education", "experience", "projects", "skills", "heading"]
 
 for section_name in resume_sections[:3]:
@@ -181,5 +191,45 @@ for section_name in resume_sections[:3]:
 
     print(f"Filled {filled_tex} saved as {latex_file}")
 
+# Get current working directory so we can revert later
+cwd = os.getcwd()
 
+# Sleep to allow the file op to complete
+sleep(1)
+newDir = f"./{TEMP_DIR}"
 
+if os.path.exists(newDir):
+    os.chdir(newDir)
+    print(f"Switched into {newDir}")
+else:
+    print(f"{newDir} does not exist")
+
+print("Generating PDF...")
+subprocess.call(f"pdflatex resume.tex".split(' '))
+
+print(f"finished! returning to {cwd}")
+
+if os.path.exists(cwd):
+    os.chdir(cwd)
+    print(f"Switched into {cwd}")
+else:
+    print(f"{cwd} does not exist")
+
+print(f"moving resume to {cwd}")
+
+newResumeLocation = os.path.join(newDir, 'resume.pdf')
+newResumeDestination = os.path.join(cwd, "resume.pdf")
+if os.path.exists(newResumeDestination):
+    os.makedirs(RESUME_BACKUP_FOLDER, exist_ok=True)
+    counter = 0
+    while True:
+        backup_name = f"resume_{counter}.pdf"
+        backup_path = os.path.join(RESUME_BACKUP_FOLDER, backup_name)
+        if not os.path.exists(backup_path):
+            shutil.move(newResumeDestination, backup_path)     # old resume is stored at newResumeDestination
+            print(f"Moved previous resume to backups folder as {backup_name}")
+            break
+        counter += 1
+
+shutil.move(newResumeLocation, cwd)
+print(f"new resume has been moved to {RESUME_BACKUP_FOLDER}/{cwd}")
