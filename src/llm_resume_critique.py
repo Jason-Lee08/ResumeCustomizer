@@ -10,12 +10,8 @@ outputed resume uses data that the agent was actually given (to prevent hallucin
 The best resume is chosen and returned to the user.
 """
 from autogen import ConversableAgent
-import os
 import dotenv
 import json
-import requests
-from bs4 import BeautifulSoup
-import autogen
 import openai
 from resume_agents.agents import *
 import argparse
@@ -46,28 +42,6 @@ def search_for_keywords(text, keywords):
     )
 
     return response
-
-def extract_text_from_webpage(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an exception for HTTP errors
-
-        # Parse the webpage content
-        soup = BeautifulSoup(response.text, 'html.parser')
-
-        # Extract all visible text from the webpage
-        for script_or_style in soup(['script', 'style']):
-            script_or_style.decompose()  # Remove JavaScript and CSS
-
-        # Get the text and normalize whitespace
-        text = soup.get_text(separator='\n')
-        lines = [line.strip() for line in text.splitlines()]
-        visible_text = '\n'.join(line for line in lines if line)
-
-        return visible_text
-
-    except requests.exceptions.RequestException as e:
-        return f"An error occurred while fetching the webpage: {e}"
 
 
 def generate_recruiter_message_prompt(resume1, resume2):
@@ -117,7 +91,7 @@ def build_resume(user_previous_experience, user_projects, job_descrption):
             {
                 "recipient": builder_agent,
                 "message": generate_first_prompt(user_previous_experience, user_projects, job_descrption),
-                "max_turns": 3,
+                "max_turns": 1,
                 "summary_method": "last_msg",
             }
         ]
@@ -132,14 +106,10 @@ def main(args):
     This function creates N agents that each build their own resume, so N resumes total.
     Then, another agent critiques the resume, giving back-and-forth dialogue.
     After this process is completed, an evaluator agent critiques each resume in a face-off manner.
-
-    Configurable through argsparser:
-        N - number of sample resumes
-
     """
 
     # parse args
-    print(args)
+    print(f"Args: {args}")
     job_descrption_txt_file = args.job_description_txt
     user_data_json_file = args.user_data_json
 
@@ -158,23 +128,21 @@ def main(args):
     # coordinator asks each resume agent to build chat
     resume_results = build_resume(user_data_experience, user_data_projects, job_description)
 
-    print(resume_results)
-
-    with open('results.txt', 'w') as f:
+    with open('data/results.txt', 'w') as f:
         for i in range(len(resume_results)):
             f.write(resume_results[i].chat_history[i]["content"])
             f.write("\n\n\n")
 
-            # result = json.loads(escape_json_string(resume_results[i].chat_history[1]["content"]))
-            # json.dump(result, json_file, indent=4)
-
-    with open('final_result.txt', 'w') as f:
+    with open('data/final_result.txt', 'w') as f:
         f.write(str(resume_results[-1].chat_history[-1]["content"]))
 
-    with open('final_result.json', 'w') as f:
+    with open('data/final_result.json', 'w') as f:
         # print(resume_results[-1].chat_history[-1]["content"])
         # print(escape_json_string(resume_results[-1].chat_history[-1]["content"]))
-        results = json.loads(escape_json_string(resume_results[-1].chat_history[-1]["content"]))
+        escaped_final_resume = escape_json_string(resume_results[-1].chat_history[-1]["content"])
+        print("4" * 50)
+        print(escaped_final_resume)
+        results = json.loads(escaped_final_resume)
         result_dict.update(results)
         json.dump(result_dict, f, indent=4)
     

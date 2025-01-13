@@ -1,0 +1,89 @@
+{
+    "education": {
+        "universityname": "My University",
+        "start_date": "01/20",
+        "grad_date": "Expected 01/24",
+        "degree_type": "Bachelors of Science",
+        "GPA": "4.00",
+        "major": "Undecided",
+        "city": "San Jose",
+        "state_abbreviation": "CA",
+        "coursework": "Algorithms, Data Structures"
+    },
+    "experience": [
+        {
+            "company_name": "DataSys Solutions",
+            "start_date": "May 2021",
+            "end_date": "Dec 2022",
+            "role_title": "Data Engineer",
+            "city": "Boston",
+            "state": "MA",
+            "bullet_points": [
+                "Built ETL pipelines to process terabytes of structured and unstructured data using Apache Airflow and Spark.",
+                "Designed and implemented data models in a Snowflake data warehouse, optimizing data retrieval and storage for analysis.",
+                "Automated data validation processes, significantly reducing errors and improving data quality by 70%.",
+                "Collaborated with data scientists to preprocess and expose datasets through APIs for machine learning applications."
+            ]
+        },
+        {
+            "company_name": "AI Ventures",
+            "start_date": "Jun 2020",
+            "end_date": "Apr 2021",
+            "role_title": "Machine Learning Intern",
+            "city": "Chicago",
+            "state": "IL",
+            "bullet_points": [
+                "Developed deep learning models for image classification using PyTorch and TensorFlow, with an emphasis on transfer learning techniques.",
+                "Built and deployed REST APIs to serve machine learning predictions, ensuring efficient integration of ML models into production workflows.",
+                "Conducted hyperparameter tuning to optimize model performance, resulting in a 15% increase in accuracy.",
+                "Documented and presented model results to stakeholders, providing actionable insights to guide business decisions."
+            ]
+        },
+        {
+            "company_name": "Tech Innovators Inc.",
+            "start_date": "Jan 2023",
+            "end_date": "Present",
+            "role_title": "Full Stack Developer",
+            "city": "San Jose",
+            "state": "CA",
+            "bullet_points": [
+                "Designed and deployed responsive web applications and integrated data-driven solutions using React, Node.js, and PostgreSQL.",
+                "Managed CI/CD pipelines using Jenkins and GitHub Actions, ensuring seamless deployments for machine learning models.",
+                "Mentored junior developers on coding best practices, enhancing team productivity and code reliability.",
+                "Participated in sprint planning sessions, applying Agile methodologies to align project goals with business objectives."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "AI-Assisted Code Review Tool",
+            "skills": "Python, Flask, NLP, GitHub API, Docker",
+            "bullet_points": [
+                "Developed an AI-assisted code review tool leveraging natural language processing to analyze code and suggest improvements.",
+                "Integrated with the GitHub API to automate pull request comments, enhancing developer collaboration and review efficiency.",
+                "Successfully reduced code review time by 40% in initial deployment, significantly improving team workflow.",
+                "Utilized Docker for scalable deployment, facilitating integration into existing CI/CD pipelines."
+            ]
+        },
+        {
+            "project_name": "Real-Time Financial Market Dashboard",
+            "skills": "Python, Flask, React, WebSocket, MongoDB, AWS Lambda",
+            "bullet_points": [
+                "Engineered a real-time financial market dashboard for streaming stock and cryptocurrency data, achieving sub-second latency.",
+                "Built backend services with Flask and MongoDB for data persistence and developed a responsive frontend using React.",
+                "Leveraged AWS Lambda for processing and aggregating large volumes of financial data, ensuring high availability and performance.",
+                "Integrated interactive visualizations that facilitate market trend analysis, enhancing decision-making capabilities."
+            ]
+        },
+        {
+            "project_name": "Smart Traffic Control System",
+            "skills": "Python, OpenCV, Raspberry Pi, MQTT, TensorFlow",
+            "bullet_points": [
+                "Designed an AI-powered traffic control system utilizing Raspberry Pi and TensorFlow to classify vehicles and manage traffic signals.",
+                "Implemented real-time video processing with OpenCV, leading to a simulated 25% reduction in traffic congestion.",
+                "Integrated MQTT for effective communication between edge devices and a central server, optimizing data flow.",
+                "Conducted simulations to validate system performance, with positive feedback for efficiency improvements."
+            ]
+        }
+    ]
+}

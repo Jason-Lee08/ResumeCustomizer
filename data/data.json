@@ -1,4 +1,10 @@
 {
+    "personal_info": {
+        "name": "First Last",
+        "email": "firstlast@email.com",
+        "phone": "1-123-456-7890",
+        "links": ["https://linkedin.com/firstlast"]
+    },
     "education": {
         "universityname": "My University",
         "start_date": "01/20",
@@ -9,6 +15,9 @@
         "city": "San Jose",
         "state_abbreviation": "CA",
         "coursework": "Algorithms, Data Structures"
+    },
+    "skills": {
+        // TODO:
     },
     "experience": [
         {
