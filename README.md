@@ -1,4 +1,4 @@
-# ResumeCustomizer
+# ResuMate - Resume Customization using AI Agents
 
 ### Here's an example of a resume generated using my application:
 ![image](imgs/image.png)
