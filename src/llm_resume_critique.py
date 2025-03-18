@@ -1,170 +1,167 @@
-"""
-This script generates prompts an LLM agent to generate various different sample resumes 
-for an inputted job description.
-
-Once each agent is finished creating their resume, a different LLM agent system grades each resume, 
-pretending to be a recruiter selecting the best candidate for the job description. This whole process is supervised
-by another language model that critiques how realistic the resume is to avoid model drift. Another model verifies that the 
-outputed resume uses data that the agent was actually given (to prevent hallucinations).
-
-The best resume is chosen and returned to the user.
-"""
-from autogen import ConversableAgent
-import dotenv
 import json
-import openai
-from resume_agents.agents import *
 import argparse
+from groq import Groq
+import os
 
-NUM_AGENTS = 2
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
-dotenv.load_dotenv()
-
-def generate_first_prompt(user_experience, user_projects, job_description):
-    return "Given the following job description and collection of user experiences and data, please output a draft of which experiences/projects/skills you would write on the user's resume.\n\n" + f"Here is the user's previous career experience: {user_experience}\n\nHere is the user's projects (that may or may not be relevant): {user_projects}.\n\n Here is the job description that you will customize the resume for: {job_description}"
-
-def generate_recruiter_system_prompt(description):
-    recruiter_sys_prompt = f"""
-    You are a recruiter and you are hiring for a role with the following description: {description}
+class ResumeGenerator:
     """
-    return recruiter_sys_prompt
-
-def search_for_keywords(text, keywords):
+    Generates resumes based on user experience, projects, and a job description.
+    Uses the Groq API to generate text-based resumes.
     """
-    Keywords 
+    def __init__(self, groq_client):
+        self.client = groq_client
+
+    def generate_resume(self, experience, projects, job_description):
+        """
+        Generates a resume draft tailored to the given job description.
+        
+        Args:
+            experience (str): User's past job experience.
+            projects (str): User's relevant projects.
+            job_description (str): The target job description.
+        
+        Returns:
+            str: The generated resume.
+        """
+        prompt = ("Given the following job description and user experience, generate a customized resume draft.\n\n"
+                  f"User Experience: {experience}\n\nProjects: {projects}\n\n"
+                  f"Job Description: {job_description}")
+        
+        response = self.client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that generates professional resumes."},
+                {"role": "user", "content": prompt}
+            ],
+            model="mixtral-8x7b-32768",
+            temperature=0.7
+        )
+        return response.choices[0].message.content
+
+class ResumeJudge:
     """
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are an assistant who processes text from webpages. Please respond with the identified content and nothing else. For example, please don't start with \"Here is the desired content: \". "},
-            {"role": "user", "content": f"Find relevant information about '{", ".join(keywords)}' in the following text:\n\n{text}"}
-        ]
-    )
-
-    return response
-
-
-def generate_recruiter_message_prompt(resume1, resume2):
-    result = f"""
-        Given the following resumes, pick the candidate with the better resume. Please respond with either 1 or 2.
-
-    Candidate 1:
-    {resume1}
-
-    Candidate 2:
-    {resume2}
+    Evaluates and compares resumes to determine the best one.
+    Uses the Groq API to simulate a recruiter selecting the stronger candidate.
     """
-    return result
+    def __init__(self, groq_client):
+        self.client = groq_client
+
+    def evaluate_resumes(self, resume1, resume2):
+        """
+        Compares two resumes and selects the stronger candidate.
+        
+        Args:
+            resume1 (str): The first resume.
+            resume2 (str): The second resume.
+        
+        Returns:
+            int: 1 if the first resume is better, 2 if the second resume is better.
+        """
+        prompt = ("Given the following resumes, select the stronger candidate. Respond with either 1 or 2.\n\n"
+                  f"Candidate 1:\n{resume1}\n\n"
+                  f"Candidate 2:\n{resume2}")
+        
+        response = self.client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are an expert recruiter evaluating resumes."},
+                {"role": "user", "content": prompt}
+            ],
+            model="mixtral-8x7b-32768",
+            temperature=0.5
+        )
+        return int(response.choices[0].message.content.strip())
 
 
-
-def escape_json_string(json_string):
-    " Applied before serializing responses to json so that they can be loaded in by Python "
-    result = json_string.replace('%', '%')
-    return result
-
-
-def resume_battle(resume1, resume2, MAX_BATTLES=3):
+class ResumeCoordinator:
     """
-    This function uses a resume evaluator agent to pick the best resume.
-    To ensure ordering doesn't matter, it will ask the evaluator two times.
-    If both there is a tie, then more iterations of this process are sampled,
-    until a maximum of MAX_BATTLES battles have occured. 
+    Coordinates the resume generation and evaluation process.
+    Creates multiple resumes and selects the best one using a tournament-style evaluation.
     """
-    # TODO:
-    return
-
-def recursive_battle(data):
-    # TODO
-    return
-
-def build_resume(user_previous_experience, user_projects, job_descrption):
-    """
-    This function creates a feedback loop using a resume builder and a feedback agent.
-    """
-    # TODO: create a resume builder agent and a resume critique agent for feedback that uses reasoning
-    feedback_agent = getFeedbackAgent()
-    builder_agent = getResumeBuilderAgent()
+    def __init__(self, groq_client, num_agents=2):
+        self.groq_client = groq_client
+        self.num_agents = num_agents
+        self.generators = [ResumeGenerator(groq_client) for _ in range(num_agents)]
+        self.judge = ResumeJudge(groq_client)
     
-    chat_results = feedback_agent.initiate_chats(
-        [
-            {
-                "recipient": builder_agent,
-                "message": generate_first_prompt(user_previous_experience, user_projects, job_descrption),
-                "max_turns": 1,
-                "summary_method": "last_msg",
-            }
-        ]
-    )
+    def generate_resumes(self, experience, projects, job_description):
+        """
+        Generates multiple resumes using different resume generators.
+        
+        Args:
+            experience (str): User's past job experience.
+            projects (str): User's relevant projects.
+            job_description (str): The target job description.
+        
+        Returns:
+            list: A list of generated resumes.
+        """
+        resumes = [gen.generate_resume(experience, projects, job_description) for gen in self.generators]
+        return resumes
+    
+    def select_best_resume(self, resumes):
+        """
+        Conducts a tournament-style battle to determine the best resume.
+        
+        Args:
+            resumes (list): List of generated resumes.
+        
+        Returns:
+            str: The best resume.
+        """
+        while len(resumes) > 1:
+            new_round = []
+            for i in range(0, len(resumes) - 1, 2):
+                winner = resumes[i] if self.judge.evaluate_resumes(resumes[i], resumes[i+1]) == 1 else resumes[i+1]
+                new_round.append(winner)
+            if len(resumes) % 2 == 1:
+                # Carry forward the last resume if odd count
+                new_round.append(resumes[-1])
+            resumes = new_round
+        return resumes[0]
+    
+    def run(self, experience, projects, job_description):
+        """
+        Runs the entire resume generation and selection process.
+        
+        Args:
+            experience (str): User's past job experience.
+            projects (str): User's relevant projects.
+            job_description (str): The target job description.
+        
+        Returns:
+            str: The best resume selected from multiple candidates.
+        """
+        resumes = self.generate_resumes(experience, projects, job_description)
+        best_resume = self.select_best_resume(resumes)
+        return best_resume
 
-    return chat_results
-
-USERDATA_MAINTAIN_KEYS = ["education"]
 
 def main(args):
     """
-    This function creates N agents that each build their own resume, so N resumes total.
-    Then, another agent critiques the resume, giving back-and-forth dialogue.
-    After this process is completed, an evaluator agent critiques each resume in a face-off manner.
-    """
-
-    # parse args
-    print(f"Args: {args}")
-    job_descrption_txt_file = args.job_description_txt
-    user_data_json_file = args.user_data_json
-
-    # Load the files
-    with open(user_data_json_file, 'r') as f:
-        all_user_data = json.load(f)
-        user_data_experience = all_user_data['experience']
-        user_data_projects = all_user_data['projects']
-        result_dict = {key:all_user_data[key] for key in USERDATA_MAINTAIN_KEYS}
-        
-
-    # TODO: in the future, use AI to parse the job description/anything relevant from the user inputted URL
-    with open(job_descrption_txt_file, 'r') as f:
-        job_description = f.read()
-
-    # coordinator asks each resume agent to build chat
-    resume_results = build_resume(user_data_experience, user_data_projects, job_description)
-
-    with open('data/results.txt', 'w') as f:
-        for i in range(len(resume_results)):
-            f.write(resume_results[i].chat_history[i]["content"])
-            f.write("\n\n\n")
-
-    with open('data/final_result.txt', 'w') as f:
-        f.write(str(resume_results[-1].chat_history[-1]["content"]))
-
-    with open('data/final_result.json', 'w') as f:
-        # print(resume_results[-1].chat_history[-1]["content"])
-        # print(escape_json_string(resume_results[-1].chat_history[-1]["content"]))
-        escaped_final_resume = escape_json_string(resume_results[-1].chat_history[-1]["content"])
-        print("4" * 50)
-        print(escaped_final_resume)
-        results = json.loads(escaped_final_resume)
-        result_dict.update(results)
-        json.dump(result_dict, f, indent=4)
+    Main function to load user data, generate resumes, and select the best one.
     
-    resume1 = ""
-    resume2 = ""
+    Args:
+        args: Command-line arguments.
+    """
+    with open(args.user_data_json, 'r') as f:
+        user_data = json.load(f)
+    
+    with open(args.job_description_txt, 'r') as f:
+        job_description = f.read()
+    
+    groq_client = Groq(api_key=GROQ_API_KEY)
+    coordinator = ResumeCoordinator(groq_client)
+    best_resume = coordinator.run(user_data['experience'], user_data['projects'], job_description)
+    
+    with open('best_resume.json', 'w') as f:
+        json.dump({'best_resume': best_resume}, f, indent=4)
+    print("Best resume saved as best_resume.json")
 
-    # with open("results.txt", 'w') as f:
-    #     with open(f"results/result_{i}.json", 'w') as json_file:
-    #         for i in range(len(chat_results)):
-    #             f.write(str(chat_results[i]))
-    #             f.write("\n\n\n")
-
-    #             result = json.loads(escape_json_string(chat_results[i].chat_history[1]["content"]))
-    #             json.dump(result, json_file, indent=4)
-
-    #             if i == 0:
-    #                 resume1 = result
-    #             else:
-    #                 resume2 = result
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("user_data_json")
     parser.add_argument("job_description_txt")
-    main(parser.parse_args())
+    args = parser.parse_args()
+    main(args)

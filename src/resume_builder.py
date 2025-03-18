@@ -5,6 +5,9 @@ import shutil
 import subprocess
 from time import sleep
 from utils import *
+from groq import Groq 
+
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 env = Environment(
     loader=FileSystemLoader('.'),
@@ -49,7 +52,7 @@ for section_name in resume_sections[:3]:
     with open(latex_file, "w") as file:
         file.write(filled_tex)
 
-    print(f"Filled {filled_tex} saved as {latex_file}")
+    # print(f"Filled {filled_tex} saved as {latex_file}")
 
 # Get current working directory so we can revert later
 cwd = os.getcwd()
